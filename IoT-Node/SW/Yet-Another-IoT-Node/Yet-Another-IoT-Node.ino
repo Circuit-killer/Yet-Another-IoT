@@ -134,10 +134,9 @@ void loop()
 *
 * Protocol Design:
 * ID (from EEPROM unique ID) / SensorType /t:temp / u:humidity
+* (YET TO BE IMPLEMENTED)
 *  
 ****************************************************************************/
-
-
 
 send:
   // Send a message to server
