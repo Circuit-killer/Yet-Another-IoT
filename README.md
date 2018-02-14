@@ -9,4 +9,5 @@ Yet Another IoT (Node + BroadRouter)
 
 ### Add-ons for the YAIoT project
 * [An Overkill MPTT Solar Charger for the IoT Node](https://github.com/PY1CX/MPTT-Solar-Charger-LT3652) (If you don't mind losing some solar power you can use the onboard MCP73831 without problem.)
+* [A nice pH meter shield with Texas Instruments AFE and ADC](https://github.com/PY1CX/pH-SPI-Shield) (And also space for some other sensors)
 
