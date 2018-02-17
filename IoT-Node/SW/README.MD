@@ -1,1 +1,1 @@
-SW code for the node still needs a little clean-up before beeing uploaded here.
+Still needs to implement new "general" protocol, but clean-up done.
