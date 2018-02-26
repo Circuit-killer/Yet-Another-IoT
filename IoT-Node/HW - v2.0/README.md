@@ -7,6 +7,6 @@
 * In board battery gauge with BQ27750: I think a battery gauge can be a "Variant" of the project, sometimes it's nice to know if how the charging is going and how much battery we got left.
 
 ##### Features deprecated on this version:
-* MCP73831 - With the inboard MPTT charger we don't need two chargers
+* MCP73831 - With the inboard MPTT charger we don't need two battery chargers
 * Hi-Link Power Supply - If you need a mains connected node, just get the V1.0 of the hardware. 
 * Si70xx - Maybe I'm getting rid of the Si70xx because we have them in the pH-SPI-Board and in the plastic case I use at the moment in the nodes, while using the shield we got a more precise measurement of the enviroment around.
