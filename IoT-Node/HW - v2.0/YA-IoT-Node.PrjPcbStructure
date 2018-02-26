@@ -1,0 +1,5 @@
+Record=TopLevelDocument|FileName=YA-N-Block.SchDoc
+Record=SheetSymbol|SourceDocument=YA-N-Block.SchDoc|Designator=Microcontroller|SchDesignator=Microcontroller|FileName=YA-N-Microcontroller.SchDoc|SymbolType=Normal|RawFileName=YA-N-Microcontroller.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=YA-N-Block.SchDoc|Designator=Power Supply|SchDesignator=Power Supply|FileName=YA-N-Power_Supply.SchDoc|SymbolType=Normal|RawFileName=YA-N-Power_Supply.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=YA-N-Block.SchDoc|Designator=Radio|SchDesignator=Radio|FileName=YA-N-Radio.SchDoc|SymbolType=Normal|RawFileName=YA-N-Radio.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=YA-N-Block.SchDoc|Designator=Sensors|SchDesignator=Sensors|FileName=YA-N-Sensors.SchDoc|SymbolType=Normal|RawFileName=YA-N-Sensors.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
