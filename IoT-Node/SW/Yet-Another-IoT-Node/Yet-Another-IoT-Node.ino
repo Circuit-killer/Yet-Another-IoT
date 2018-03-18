@@ -15,7 +15,6 @@
 //If your node has the TPL5111, uncomment the next line
 #define DONE_PIN
 
-
 #define DELAY_TIME 10000
 
 //If we use DONE_PIN with TPL5111 do not use the delay
@@ -32,13 +31,8 @@
 // uncomment the line below
 #define CLIENT_ADDRESS 13
 
-
 // Server will be always number 1 in the network!
 #define SERVER_ADDRESS 1
-
-//SI7020 Includes & Defines
-#include "Wire.h"
-#define SI7020 0x40
 
 #ifdef DONE_PIN
 #define DONE_PIN 8
@@ -46,6 +40,10 @@
 
 // Singleton instance of the radio driver
 RH_RF69 driver;
+
+#include "si70xx.h"
+//Singleton instance of Si7021
+Si70xx_driver Si7021;
 
 // Use the RadioHead Reliable Datagram 
 RHReliableDatagram manager(driver, CLIENT_ADDRESS);
@@ -62,6 +60,8 @@ void setup()
   #ifdef DONE_PIN
   pinMode(DONE_PIN, OUTPUT);
   #endif
+
+  
   
   manager.init();
   driver.setModemConfig(12); //GFSK_Rb4_8Fd9_6 
@@ -98,44 +98,13 @@ void loop()
 
   **********************************************************/
 
-  Wire.beginTransmission(0x40);
-  // Send humidity measurement command, NO HOLD MASTER
-  Wire.write(0xF5);
-  // Stop I2C transmission
-  Wire.endTransmission();
-  delay(500); // Conversion time
-
-  // Request 2 bytes of data
-  Wire.requestFrom(SI7020, 2);
-
-  // Read 2 bytes of data
-  // humidity msb, humidity lsb
-  if (Wire.available() == 2)
-  {
-    data[0] = Wire.read();
-    data[1] = Wire.read();
-  }
-
-  Wire.beginTransmission(0x40);
-  // Send temperature measurement command, NO HOLD MASTER
-  Wire.write(0xF3);
-  // Stop I2C transmission
-  Wire.endTransmission();
-  delay(500);
-
-  // Request 2 bytes of data
-  Wire.requestFrom(SI7020, 2);
-
-  // Read 2 bytes of data
-  // temp msb, temp lsb
-  if (Wire.available() == 2)
-  {
-    data[2] = Wire.read();
-    data[3] = Wire.read();
-  }
+  float temperature = Si7021.read_temperature_celsius();
+  float humidity    = Si7021.read_humidity();
 
 #ifdef DEBUG
   Serial.println("INFO - Sending data to server");
+  Serial.print("Temperature: "); Serial.println(temperature,2);
+  Serial.print("Humidity: "; Serial.println(humidity,2);
 #endif
 
 /****************************************************************************
@@ -181,26 +150,12 @@ send:
 
   }// After this, the data was already sent!
 
-  /***********************************************************
-
-       Debug of Si7020 data
-
-  **********************************************************/
-#ifdef DEBUG
-  for ( int index = 0; index < 4; index ++)
-  {
-    Serial.print(data[index], HEX);
-    index < 3 ? Serial.print(" ") : Serial.println();
-  }
-
-  float dhumidity  = ((data[0] * 256.0) + data[1]);
-  dhumidity = ((125 * dhumidity) / 65536.0) - 6;
-  float dtemp  = ((data[2] * 256.0) + data[3]);
-  dtemp = ((175.72 * dtemp) / 65536.0) - 46.85;
-  Serial.println(dhumidity, 1);
-  Serial.println(dtemp, 2);
-#endif
-
+/*  
+ *  If using TPL5111 timer, pull DONE_PIN high so the system will sleep, 
+ *  and hook into a while(1) before power goes down, else, use the delay. 
+ *  We hook to while(1) so the node doesn't go into a undefined behavior
+ *  like trying to reaqcuire data and resend.
+ */
 #ifdef DONE_PIN  
   digitalWrite(DONE_PIN, HIGH);
   while(1); // After DONE_PIN beeing pulled HIGH the node will turn off
@@ -209,7 +164,5 @@ send:
   delay(DELAY_TIME);
 #endif
   
-
-  
-}// EoM
+}// End of Main 
 
