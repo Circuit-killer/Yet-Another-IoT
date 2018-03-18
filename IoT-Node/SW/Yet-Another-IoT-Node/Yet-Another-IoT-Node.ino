@@ -15,6 +15,14 @@
 //If your node has the TPL5111, uncomment the next line
 #define DONE_PIN
 
+
+#define DELAY_TIME 10000
+
+//If we use DONE_PIN with TPL5111 do not use the delay
+#ifdef DONE_PIN
+#undef DELAY_TIME
+#endif
+
 //Includes for RFM59HCW
 #include <RHReliableDatagram.h>
 #include <RH_RF69.h>
@@ -127,16 +135,17 @@ void loop()
   }
 
 #ifdef DEBUG
-  Serial.println("Sending to Node data to Server");
+  Serial.println("INFO - Sending data to server");
 #endif
 
 /****************************************************************************
 *
 * Protocol Design:
 * ID (from EEPROM unique ID) / SensorType /t:temp / u:humidity
-* (YET TO BE IMPLEMENTED)
 *  
 ****************************************************************************/
+
+
 
 send:
   // Send a message to server
@@ -150,7 +159,7 @@ send:
     if (manager.recvfromAckTimeout(buf, &len, 2000, &from))
     { 
       #ifdef DEBUG
-      Serial.print("Got reply from: 0x");
+      Serial.print("INFO - Replied: 0x");
       Serial.print(from, HEX);
       Serial.print(": ");
       Serial.println((char*)buf);
@@ -194,10 +203,13 @@ send:
 
 #ifdef DONE_PIN  
   digitalWrite(DONE_PIN, HIGH);
+  while(1); // After DONE_PIN beeing pulled HIGH the node will turn off
+          // But ensure it doesn't try to do anything before power goes down.
+#else
+  delay(DELAY_TIME);
 #endif
   
-while(1); // After DONE_PIN beeing pulled HIGH the node will turn off
-          // But ensure it doesn't try to do anything before power goes down.
+
   
 }// EoM
 
